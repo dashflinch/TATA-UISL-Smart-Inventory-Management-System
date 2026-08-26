@@ -1,0 +1,370 @@
+﻿@model CompanyInventory.ViewModels.PaginatedList<CompanyInventory.Models.Category>
+@* @model IEnumerable<CompanyInventory.Models.Category> *@
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Categories";
+    ViewData["Subtitle"] = "Manage all product categories";
+}
+
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+
+        <div class="d-flex gap-2">
+
+            <!-- Search -->
+            <form asp-action="Index"
+                  method="get"
+                  class="d-flex">
+
+                <input type="text"
+                       name="searchString"
+                       value="@ViewData["CurrentFilter"]"
+                       class="form-control"
+                       placeholder="Search category..." />
+
+                <button type="submit"
+                        class="btn btn-outline-primary ms-2">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </button>
+
+            </form>
+
+            <!-- Add Button -->
+            <button class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#createCategoryModal">
+
+                    <i class="fa-solid fa-plus"></i>
+                        Add Category
+            </button>
+
+        </div>
+
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <!-- Category Table -->
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+             <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.CategoryId</td>
+
+                                <td>@item.CategoryName</td>
+
+                                <td>@item.Description</td>
+
+                                <td>
+
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Inactive
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <button class="btn btn-warning btn-sm editBtn"
+                                            data-id="@item.CategoryId"
+                                            data-name="@item.CategoryName"
+                                            data-description="@item.Description"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editCategoryModal">
+
+                                        <i class="fa-solid fa-pen"></i>
+
+                                    </button>
+
+                                    <form asp-action="Delete"
+                                          asp-route-id="@item.CategoryId"
+                                          method="post"
+                                          class="d-inline">
+
+                                        <button type="submit"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Delete this category?')">
+
+                                            <i class="fa-solid fa-trash"></i>
+
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="5"
+                                class="text-center text-muted">
+
+                                No categories found.
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+            <!-- Pagination -->
+<nav class="mt-3">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PageIndex - 1)"
+               asp-route-searchString="@ViewData["CurrentFilter"]">
+                Previous
+            </a>
+        </li>
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-searchString="@ViewData["CurrentFilter"]">
+                    @i
+                </a>
+            </li>
+        }
+
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PageIndex + 1)"
+               asp-route-searchString="@ViewData["CurrentFilter"]">
+                Next
+            </a>
+        </li>
+
+    </ul>
+</nav>
+        </div> 
+    </div>
+</div>
+
+
+
+<!-- Create Category Modal -->
+<div class="modal fade" id="createCategoryModal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <form asp-action="Create" method="post">
+
+                <div class="modal-header bg-primary text-white">
+
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Category
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Category Name</label>
+
+                        <input name="CategoryName"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Description</label>
+
+                        <textarea name="Description"
+                                  class="form-control"
+                                  rows="4"></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Save
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- Edit Category Modal -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <form asp-action="Edit" method="post">
+
+                <div class="modal-header bg-warning">
+
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-pen"></i>
+                        Edit Category
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden"
+                           id="editCategoryId"
+                           name="CategoryId" />
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Category Name</label>
+
+                        <input id="editCategoryName"
+                               name="CategoryName"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Description</label>
+
+                        <textarea id="editDescription"
+                                  name="Description"
+                                  class="form-control"
+                                  rows="4"></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-warning">
+                        Update
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts{
+<script>
+
+document.querySelectorAll(".editBtn").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        document.getElementById("editCategoryId").value = this.dataset.id;
+        document.getElementById("editCategoryName").value = this.dataset.name;
+        document.getElementById("editDescription").value = this.dataset.description;
+
+    });
+
+});
+
+</script>
+}

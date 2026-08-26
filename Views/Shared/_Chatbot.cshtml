@@ -1,0 +1,50 @@
+﻿<div id="chatbotButton"> 🤖</div>
+
+<div id="chatbotContainer">
+
+    <div class="chat-header">
+
+        <span>Inventory Assistant</span>
+
+        <button id="closeChat">
+            &times;
+        </button>
+
+    </div>
+
+    <div id="chatMessages">
+
+        <div class="bot-message">
+            👋 <strong>Hello! I am your Company Inventory Assistant.</strong>
+            <br><br>
+            Choose a topic or ask your own question.
+
+            <div class="quick-actions">
+                <button class="quick-btn">📦 Add Product</button>
+                <button class="quick-btn">📂 Categories</button>
+                <button class="quick-btn">🎫 Raise Ticket</button>
+                <button class="quick-btn">👥 Users</button>
+                <button class="quick-btn">📊 Dashboard</button>
+                <button class="quick-btn">🔐 Login</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="chat-footer">
+
+        <input type="text"
+               id="userMessage"
+               placeholder="Ask something..." />
+
+        <button id="sendMessage">
+            Send
+        </button>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="~/css/chatbot.css" />
+
+<script src="~/js/chatbot.js"></script>

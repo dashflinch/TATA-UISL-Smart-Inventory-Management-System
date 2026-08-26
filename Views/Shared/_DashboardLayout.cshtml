@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tata Steel UISL</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CompanyInventory.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+
+<body>
+
+    <!-- Top Navbar -->
+    <header>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+
+            <div class="container-fluid px-4">
+
+                @* <button id="toggleSidebar" class="toggle-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button> *@
+
+                <a class="navbar-brand d-flex align-items-center"
+                   asp-controller="Dashboard"
+                   asp-action="Index">
+
+                    <img src="https://res.cloudinary.com/dcaleplje/image/upload/v1784240254/TataS_teel_at_iflptv.png"
+                         alt="Logo"
+                         class="navbar-logo" />
+
+                    <span class="ms-2 fw-bold">
+                        Tata Steel UISL
+                    </span>
+
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <div class="dashboard collapsed  ">
+
+     
+
+
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+
+                <button id="toggleSidebar" class="toggle-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="logo">
+                    <h3>Inventory System</h3>
+                </div>
+
+            </div>
+
+            <ul class="menu">
+                <li>
+                    <a asp-controller="Dashboard" 
+                        asp-action="Index"
+                        class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a asp-controller="User" 
+                                asp-action="Index"
+                                class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ? "active" : "")">
+                            <i class="fa-solid fa-gear"></i>
+                                <span>Configurations</span>
+                            </a>
+                        </li>
+                    }
+
+                
+
+                @* <li>
+                    <a asp-controller="Category" 
+                        asp-action="Index"
+                        class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Category" ? "active" : "")">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Categories</span>
+                    </a>
+                </li> *@
+
+                @* <li>
+                    <a asp-controller="Product" 
+                        asp-action="Index"
+                        class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Product" ? "active" : "")">
+                        <i class="fa-solid fa-box"></i>
+                        <span>Products</span>
+                    </a>
+                </li> *@
+
+                @* <li>
+                    <a asp-controller="Ticket" 
+                        asp-action="Index"
+                        class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Ticket" ? "active" : "")">
+                        <i class="fa-solid fa-ticket"></i>
+                        <span>Tickets</span>
+                    </a>
+                </li> *@
+
+                <li>
+                    <a asp-controller="Auth"
+                        asp-action="Logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <div class="topbar">
+
+                <div>
+
+                    <h2>@ViewData["Title"]</h2>
+
+                        <p>@ViewData["Subtitle"]</p>
+
+                </div>
+
+                @* <div class="profile">
+
+                    <i class="fa-solid fa-user-circle"></i>
+
+                    <span>@User.Identity?.Name</span>
+
+                </div> *@
+                <div class="profile">
+
+    <i class="fa-solid fa-user-circle"></i>
+
+            <span>
+                @User.Identity?.Name
+                (@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)
+            </span>
+
+        </div>
+            </div>
+
+            @RenderBody()
+
+        </main>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+             
+            const toggleBtn = document.getElementById("toggleSidebar");
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener("click", function () {
+                    document.querySelector(".dashboard").classList.toggle("collapsed");
+                });
+            }
+
+        });
+    </script>
+
+    
+
+    @await RenderSectionAsync("Scripts", required: false)
+    <partial name="_Chatbot" />
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,176 @@
+[
+  {
+    "keywords": [
+      "raise ticket",
+      "create ticket",
+      "new ticket",
+      "open ticket",
+      "ticket creation"
+    ],
+    "answer": "Go to the Tickets page and click the Raise Ticket button. Fill in the Title, Description, Product and Priority, then click Save."
+  },
+  {
+    "keywords": [
+      "delete ticket",
+      "remove ticket",
+      "cancel ticket"
+    ],
+    "answer": "Currently tickets cannot be deleted from the application. Only Admin users can manage ticket updates."
+  },
+  {
+    "keywords": [
+      "edit ticket",
+      "update ticket",
+      "modify ticket"
+    ],
+    "answer": "Only Admin users can edit tickets, assign them and update their status."
+  },
+  {
+    "keywords": [
+      "ticket status",
+      "status",
+      "open",
+      "closed",
+      "resolved",
+      "assigned",
+      "in progress"
+    ],
+    "answer": "Ticket status can only be updated by an Admin. Available statuses are Open, Assigned, In Progress, Resolved and Closed."
+  },
+  {
+    "keywords": [
+      "assign ticket",
+      "assigned to",
+      "ticket assignment"
+    ],
+    "answer": "Only Admin users can assign tickets to employees."
+  },
+  {
+    "keywords": [
+      "product",
+      "products",
+      "add product",
+      "create product",
+      "new product"
+    ],
+    "answer": "Go to the Products page and click Add Product. Fill in the product details including category, costs, quantity and description."
+  },
+  {
+    "keywords": [
+      "edit product",
+      "update product"
+    ],
+    "answer": "Products can be edited from the Products page using the Edit button."
+  },
+  {
+    "keywords": [
+      "category",
+      "categories",
+      "add category",
+      "create category"
+    ],
+    "answer": "Categories are used to organize products. You can add a category from the Categories page."
+  },
+  {
+    "keywords": [
+      "edit category",
+      "update category"
+    ],
+    "answer": "Categories can be updated from the Categories page using the Edit option."
+  },
+  {
+    "keywords": [
+      "dashboard",
+      "home",
+      "statistics",
+      "overview"
+    ],
+    "answer": "The Dashboard displays total products, categories, stock quantity and recently added products."
+  },
+  {
+    "keywords": [
+      "user",
+      "users",
+      "employee"
+    ],
+    "answer": "The Users page displays all registered users along with their roles."
+  },
+  {
+    "keywords": [
+      "role",
+      "roles",
+      "admin",
+      "employee",
+      "permission"
+    ],
+    "answer": "Admin users have full access to manage products, categories and tickets. Normal users can raise tickets and view application data according to their permissions."
+  },
+  {
+    "keywords": [
+      "login",
+      "sign in",
+      "log in"
+    ],
+    "answer": "Use your registered email and password to log into the Company Inventory application."
+  },
+  {
+    "keywords": [
+      "register",
+      "signup",
+      "sign up",
+      "create account"
+    ],
+    "answer": "Use the Register page to create a new account by entering your name, email and password."
+  },
+  {
+    "keywords": [
+      "search",
+      "find",
+      "filter"
+    ],
+    "answer": "Every management page contains a search box that allows you to quickly find records."
+  },
+  {
+    "keywords": [
+      "pagination",
+      "page",
+      "next",
+      "previous"
+    ],
+    "answer": "The application uses pagination to display records page by page. Use the Next and Previous buttons to navigate."
+  },
+  {
+    "keywords": [
+      "stock",
+      "quantity",
+      "inventory"
+    ],
+    "answer": "Stock quantity represents the available inventory for each product."
+  },
+  {
+    "keywords": [
+      "cost",
+      "price",
+      "material cost",
+      "service cost",
+      "total cost"
+    ],
+    "answer": "Each product stores Material Cost and Service Cost. Total Cost is calculated from these values."
+  },
+  {
+    "keywords": [
+      "created by",
+      "updated by"
+    ],
+    "answer": "The application automatically records who created or updated records."
+  },
+  {
+    "keywords": [
+      "help",
+      "guide",
+      "how to use",
+      "application"
+    ],
+    "answer": "I can help you with Products, Categories, Users, Dashboard, Tickets, Login, Registration, Search, Pagination and Roles."
+  }
+]

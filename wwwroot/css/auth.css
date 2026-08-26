@@ -1,0 +1,239 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 0;
+}
+
+/* ==========================
+   Main Card
+========================== */
+
+.auth-container {
+    width: 1100px;
+    max-width: 95%;
+    min-height: 680px;
+    display: flex;
+    background: #ffffff;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, .15);
+}
+
+/* ==========================
+   Left Panel
+========================== */
+
+.left-panel {
+    flex: 0 0 40%;
+    background: #03256C;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+    .left-panel h1 {
+        font-size: 42px;
+        line-height: 1.1;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .left-panel h4 {
+        color: #06BEE1;
+        font-size: 22px;
+        margin-bottom: 35px;
+        font-weight: 500;
+    }
+
+    .left-panel p {
+        font-size: 16px;
+        line-height: 28px;
+    }
+
+/* ==========================
+   Right Panel
+========================== */
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 35px 45px;
+    background: #fff;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.title {
+    color: #03256C;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #03256C;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+/* ==========================
+   Bootstrap Input Group
+========================== */
+
+.mb-3 {
+    margin-bottom: 0.8rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.input-group {
+    margin-bottom: 4px;
+}
+
+.input-group-text {
+    background: #fff;
+    border: 2px solid #1768AC;
+    color: #1768AC;
+    width: 55px;
+    justify-content: center;
+}
+
+.form-control {
+    height: 55px;
+    border: 2px solid #1768AC;
+    border-left: 0;
+    font-size: 16px;
+}
+
+    .form-control:focus {
+        border-color: #06BEE1;
+        box-shadow: none;
+    }
+
+.password-toggle {
+    cursor: pointer;
+}
+
+/* ==========================
+   Buttons
+========================== */
+
+.btn-login,
+.btn-register {
+    width: 100%;
+    height: 55px;
+    background: #2541B2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+    .btn-login:hover,
+    .btn-register:hover {
+        background: #1768AC;
+        color: white;
+    }
+
+/* ==========================
+   Bottom Text
+========================== */
+
+.bottom-text {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 17px;
+}
+
+    .bottom-text a {
+        text-decoration: none;
+        color: #1768AC;
+        font-weight: 600;
+    }
+
+        .bottom-text a:hover {
+            color: #06BEE1;
+        }
+
+/* ==========================
+   Validation
+========================== */
+
+.text-danger {
+    display: block;
+    font-size: 13px;
+    margin-top: 2px;
+    min-height: 18px;
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media (max-width: 991px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .auth-container {
+        flex-direction: column;
+    }
+
+    .left-panel {
+        width: 100%;
+        text-align: center;
+        padding: 35px;
+    }
+
+    .right-panel {
+        width: 100%;
+        padding: 35px;
+    }
+
+    .left-panel h1 {
+        font-size: 38px;
+    }
+
+    .left-panel h4 {
+        font-size: 22px;
+    }
+
+    .left-panel p {
+        font-size: 16px;
+    }
+
+    .title {
+        font-size: 34px;
+    }
+}

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tata Steel UISL</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CompanyInventory.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+
+<body>
+
+    <header>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+
+            <div class="container-fluid">
+
+                <a class="navbar-brand d-flex align-items-center"
+                   asp-controller="Dashboard"
+                   asp-action="Index">
+
+                    <img src="https://res.cloudinary.com/dcaleplje/image/upload/v1784240254/TataS_teel_at_iflptv.png"
+                         alt="Logo"
+                         class="navbar-logo" />
+
+                    <span class="ms-2 fw-bold">
+                        Tata Steel UISL
+                    </span>
+
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    @* <div class="container">
+
+        <main role="main" class="pb-3">
+
+            @RenderBody()
+
+        </main>
+
+    </div> *@
+
+    <div class="container-fluid p-0">
+
+    <main role="main">
+
+        @RenderBody()
+
+    </main>
+
+</div>
+
+    @* <footer class="border-top footer text-muted">
+
+        <div class="container">
+
+            © 2026 Tata Steel UISL Inventory Management System
+
+        </div>
+
+    </footer> *@
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

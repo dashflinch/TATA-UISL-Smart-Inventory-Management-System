@@ -1,0 +1,134 @@
+﻿@model CompanyInventory.ViewModels.PaginatedList<CompanyInventory.Models.User>
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Users";
+    ViewData["Subtitle"] = "Manage all registered users";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <form asp-action="Index"
+              method="get"
+              class="d-flex">
+
+            <input type="text"
+                   name="searchString"
+                   value="@ViewData["CurrentFilter"]"
+                   class="form-control"
+                   placeholder="Search users..." />
+
+            <button type="submit"
+                    class="btn btn-outline-primary ms-2">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+            </button>
+
+        </form>
+
+    </div>
+    <div class="table-responsive">
+
+    <table class="table table-bordered table-hover align-middle">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Created On</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="4" class="text-center">
+                        No users found.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.FullName</td>
+
+                        <td>@item.Email</td>
+
+                        <td>
+
+                            @if (item.Role == "Admin")
+                            {
+                                <span class="badge bg-danger">@item.Role</span>
+                            }
+                            else if (item.Role == "Manager")
+                            {
+                                <span class="badge bg-warning text-dark">@item.Role</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-primary">@item.Role</span>
+                            }
+
+                        </td>
+
+                        <td>@item.CreatedOn.ToString("dd MMM yyyy")</td>
+
+                    </tr>
+                }
+            }
+
+        </tbody>
+
+    </table>
+    </div>
+
+    <nav class="mt-3">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PageIndex - 1)"
+               asp-route-searchString="@ViewData["CurrentFilter"]">
+                Previous
+            </a>
+        </li>
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-searchString="@ViewData["CurrentFilter"]">
+                    @i
+                </a>
+            </li>
+        }
+
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PageIndex + 1)"
+               asp-route-searchString="@ViewData["CurrentFilter"]">
+                Next
+            </a>
+        </li>
+
+    </ul>
+</nav>
+
+</div>

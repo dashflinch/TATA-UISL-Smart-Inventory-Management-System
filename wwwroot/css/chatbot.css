@@ -1,0 +1,142 @@
+﻿#chatbotButton {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #0d6efd;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.3);
+    z-index: 9999;
+}
+
+    #chatbotButton:hover {
+        transform: scale(1.08);
+    }
+
+#chatbotContainer {
+    position: fixed;
+    right: 25px;
+    bottom: 100px;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 15px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 15px 35px rgba(0,0,0,.3);
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.chat-header {
+    background: #0d6efd;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+#closeChat {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#chatMessages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f8f9fa;
+}
+
+.bot-message {
+    background: #e9ecef;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    width: 90%;
+}
+
+.user-message {
+    background: #0d6efd;
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    width: 90%;
+}
+
+.chat-footer {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+    .chat-footer input {
+        flex: 1;
+        border: none;
+        padding: 12px;
+        outline: none;
+    }
+
+    .chat-footer button {
+        width: 90px;
+        border: none;
+        background: #0d6efd;
+        color: white;
+    }
+
+.typing {
+    opacity: .7;
+    font-style: italic;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+
+    0% {
+        opacity: .3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: .3;
+    }
+}
+
+.quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.quick-btn {
+    border: none;
+    background: #0d6efd;
+    color: #fff;
+    border-radius: 20px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: .3s;
+}
+
+    .quick-btn:hover {
+        background: #0b5ed7;
+        transform: translateY(-2px);
+    }

@@ -1,0 +1,554 @@
+﻿@model CompanyInventory.ViewModels.PaginatedList<CompanyInventory.Models.Product>
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Applications";
+    ViewData["Subtitle"] = "Manage all inventory applications";
+}
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+<div class="container-fluid mt-4">
+
+    @* <div class="d-flex justify-content-between align-items-center mb-4"> *@
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+
+    @* <div class="d-flex gap-2"> *@
+        <div class="d-flex gap-2 flex-wrap">
+
+        <!-- Search -->
+        <form asp-action="Index"
+              method="get"
+              class="d-flex">
+
+            <input type="text"
+                   name="searchString"
+                   value="@ViewData["CurrentFilter"]"
+                   class="form-control"
+                   placeholder="Search products..." />
+
+            <button type="submit"
+                    class="btn btn-outline-primary ms-2">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+            </button>
+
+        </form>
+
+        <!-- Add Product -->
+        <button class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#addProductModal">
+
+            <i class="fa-solid fa-plus"></i>
+            Add Product
+
+        </button>
+
+    </div>
+
+</div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+             <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Material Cost</th>
+                        <th>Service Cost</th>
+                        <th>Total Cost</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.ProductId</td>
+
+                                <td>@item.ProductName</td>
+
+                                <td>@item.Category?.CategoryName</td>
+
+                                <td>₹ @item.MaterialCost</td>
+
+                                <td>₹ @item.ServiceCost</td>
+
+                                <td>
+                                    <strong>₹ @item.TotalCost</strong>
+                                </td>
+
+                                <td>@item.Quantity</td>
+
+                                <td>
+
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Inactive
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td class="text-center">
+
+                                   @* <button class="btn btn-info btn-sm detailsBtn"
+                                            data-id="@item.ProductId"
+                                            data-name="@item.ProductName"
+                                            data-category="@item.Category?.CategoryName"
+                                            data-material="@item.MaterialCost"
+                                            data-service="@item.ServiceCost"
+                                            data-total="@item.TotalCost"
+                                            data-quantity="@item.Quantity"
+                                            data-description="@item.Description"
+                                            data-status="@(item.IsActive ? "Active" : "Inactive")"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#detailsProductModal">
+
+                                        <i class="fa-solid fa-eye"></i>
+
+                                   </button> *@
+
+                                    <button class="btn btn-warning btn-sm editBtn"
+                                            data-id="@item.ProductId"
+                                            data-name="@item.ProductName"
+                                            data-categoryid="@item.CategoryId"
+                                            data-material="@item.MaterialCost"
+                                            data-service="@item.ServiceCost"
+                                            data-quantity="@item.Quantity"
+                                            data-description="@item.Description"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editProductModal">
+
+                                        <i class="fa-solid fa-pen"></i>
+
+                                    </button>
+
+                                    <form asp-action="Delete"
+                                          asp-route-id="@item.ProductId"
+                                          method="post"
+                                          class="d-inline">
+
+                                        <button class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Delete this product?')">
+
+                                            <i class="fa-solid fa-trash"></i>
+
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="9"
+                                class="text-center text-muted">
+
+                                No products available.
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+            </div>
+
+
+            <nav class="mt-3">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PageIndex - 1)"
+               asp-route-searchString="@ViewData["CurrentFilter"]">
+                Previous
+            </a>
+        </li>
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-searchString="@ViewData["CurrentFilter"]">
+                    @i
+                </a>
+            </li>
+        }
+
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-page="@(Model.PageIndex + 1)"
+               asp-route-searchString="@ViewData["CurrentFilter"]">
+                Next
+            </a>
+        </li>
+
+    </ul>
+</nav>
+        </div>
+
+    </div>
+
+</div>
+
+
+                            <!-- Add Product Modal -->
+
+<div class="modal fade"
+     id="addProductModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <form asp-action="Create" method="post">
+
+                <div class="modal-header bg-primary text-white">
+
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-box"></i>
+                        Add Product
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Product Name</label>
+
+                        <input type="text"
+                               name="ProductName"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Category</label>
+
+                        <select name="CategoryId"
+                                class="form-select"
+                                required>
+
+                            <option value="">-- Select Category --</option>
+
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category.Value">
+                                    @category.Text
+                                </option>
+                            }
+
+                        </select>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Material Cost
+                            </label>
+
+                            <input type="number"
+                                   step="0.01"
+                                   name="MaterialCost"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Service Cost
+                            </label>
+
+                            <input type="number"
+                                   step="0.01"
+                                   name="ServiceCost"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Quantity</label>
+
+                        <input type="number"
+                               name="Quantity"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Description</label>
+
+                        <textarea name="Description"
+                                  rows="3"
+                                  class="form-control">
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                        Cancel
+
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- Edit Product Modal -->
+
+<div class="modal fade" id="editProductModal" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <form asp-action="Edit" method="post">
+
+                <div class="modal-header bg-warning">
+
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-pen"></i>
+                        Edit Product
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden"
+                           id="editProductId"
+                           name="ProductId" />
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Product Name</label>
+
+                        <input id="editProductName"
+                               name="ProductName"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Category</label>
+
+                        <select id="editCategoryId"
+                                name="CategoryId"
+                                class="form-select"
+                                required>
+
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category.Value">
+                                    @category.Text
+                                </option>
+                            }
+
+                        </select>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Material Cost</label>
+
+                            <input id="editMaterialCost"
+                                   name="MaterialCost"
+                                   type="number"
+                                   step="0.01"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">Service Cost</label>
+
+                            <input id="editServiceCost"
+                                   name="ServiceCost"
+                                   type="number"
+                                   step="0.01"
+                                   class="form-control"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Quantity</label>
+
+                        <input id="editQuantity"
+                               name="Quantity"
+                               type="number"
+                               class="form-control"
+                               required />
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">Description</label>
+
+                        <textarea id="editDescription"
+                                  name="Description"
+                                  rows="3"
+                                  class="form-control"></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-warning">
+                        Update
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+@section Scripts{
+
+<script>
+
+document.querySelectorAll(".editBtn").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        document.getElementById("editProductId").value = this.dataset.id;
+        document.getElementById("editProductName").value = this.dataset.name;
+        document.getElementById("editCategoryId").value = this.dataset.categoryid;
+        document.getElementById("editMaterialCost").value = this.dataset.material;
+        document.getElementById("editServiceCost").value = this.dataset.service;
+        document.getElementById("editQuantity").value = this.dataset.quantity;
+        document.getElementById("editDescription").value = this.dataset.description;
+
+    });
+
+});
+
+</script>
+
+}
+

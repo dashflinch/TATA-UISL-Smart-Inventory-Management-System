@@ -1,0 +1,282 @@
+﻿@model CompanyInventory.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_DashboardLayout";
+    ViewData["Subtitle"] = "Track and manage maintenance tickets";
+}
+
+
+        <!-- Cards -->
+        <div class="card-container">
+
+            <div class="dashboard-card green module-card"
+                 data-module="product"
+                 style="cursor:pointer;">
+
+                <i class="fa-solid fa-box"></i>
+
+                <div>
+                    <h5>Products</h5>
+                    <h2>@Model.TotalProducts</h2>
+                    <small>View Products →</small>
+                </div>
+
+            </div>
+
+            <div class="dashboard-card blue module-card"
+                 data-module="category"     
+                 style="cursor:pointer;">
+
+                <i class="fa-solid fa-layer-group"></i>
+
+                <div>
+                    <h5>Categories</h5>
+                    <h2>@Model.TotalCategories</h2>
+                    <small>View Categories →</small>
+                </div>
+
+            </div>
+
+            <div class="dashboard-card orange module-card"
+                 data-module="ticket"
+                 style="cursor:pointer;">
+
+                <i class="fa-solid fa-ticket"></i>
+
+                <div>
+                    <h5>Tickets</h5>
+                    <h2>@Model.TotalTickets</h2>
+                    <small>View Tickets →</small>
+                </div>
+
+            </div>
+
+            <div class="dashboard-card red"
+                 id="fourthTile">
+
+                <i id="fourthTileIcon"
+                   class="fa-solid @Model.FourthTileIcon"></i>
+
+                <div>
+
+                    <h5 id="fourthTileTitle">
+                        @Model.FourthTileTitle
+                    </h5>
+
+                    <h2 id="fourthTileCount">
+                        @Model.FourthTileCount
+                    </h2>
+
+                    <small id="fourthTileText">
+                        Dynamic Information
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+@* <div id="dashboardContent">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body text-center py-5">
+
+            <i class="fa-solid fa-hand-pointer fa-3x text-primary mb-3"></i>
+
+            <h5>Select a module above</h5>
+
+            <p class="text-muted">
+
+                Click Products, Categories or Tickets.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div> *@
+
+<div id="dashboardContent">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h4>
+                Welcome, @User.Identity?.Name
+            </h4>
+
+            <p class="text-muted">
+                Welcome to the Tata Steel UISL Inventory & Ticket Management Portal.
+                Select a module above to manage Categories, Products, or Tickets.
+            </p>
+
+            <hr />
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <h5 class="mb-3">
+                        <i class="fa-solid fa-chart-column text-primary"></i>
+                        Quick Summary
+                    </h5>
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total Products</span>
+                            <strong>@Model.TotalProducts</strong>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total Categories</span>
+                            <strong>@Model.TotalCategories</strong>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total Tickets</span>
+                            <strong>@Model.TotalTickets</strong>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Open Tickets</span>
+                            <strong>@Model.FourthTileCount</strong>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h5 class="mb-3">
+                        <i class="fa-solid fa-bolt text-warning"></i>
+                        Quick Actions
+                    </h5>
+
+                    <div class="alert alert-info">
+
+                        Click any dashboard tile above to open its module.
+
+                        <hr />
+
+                        <ul class="mb-0">
+
+                            <li><strong>Products</strong> – Manage inventory items.</li>
+
+                            <li><strong>Categories</strong> – Manage product categories.</li>
+
+                            <li><strong>Tickets</strong> – Track IT support tickets.</li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+        
+    @* </main> *@
+@* </div> *@
+
+
+
+
+@section Scripts {
+
+    <script>
+
+        const tileData = {
+
+            product: {
+
+                title: "Low Stock",
+
+                count: @ViewBag.LowStock,
+
+                icon: "fa-triangle-exclamation",
+
+                color: "red",
+
+                text: "Products below minimum stock"
+
+            },
+
+            category: {
+
+                title: "Active Categories",
+
+                count: @Model.TotalCategories,
+
+                icon: "fa-layer-group",
+
+                color: "red",
+
+                text: "Available Categories"
+
+            },
+
+            ticket: {
+
+                title: "Open Tickets",
+
+                count: @ViewBag.OpenTickets,
+
+                icon: "fa-circle-exclamation",
+
+                color: "red",
+
+                text: "Pending Resolution"
+
+            }
+
+        };
+
+        $(document).ready(function () {
+
+            $(".module-card").click(function () {
+
+                $(".module-card").removeClass("active");
+
+                $(this).addClass("active");
+
+                let module = $(this).data("module");
+
+                $("#dashboardContent").load("/" + module + "/PartialIndex");
+
+                $("#fourthTileTitle").text(tileData[module].title);
+
+                $("#fourthTileCount").text(tileData[module].count);
+
+                $("#fourthTileText").text(tileData[module].text);
+
+                $("#fourthTileIcon")
+                    .removeClass()
+                    .addClass("fa-solid " + tileData[module].icon);
+
+                $("#fourthTile")
+                    .removeClass("red green blue orange")
+                    .addClass(tileData[module].color);
+
+            });
+
+        });
+
+    </script>
+
+}
